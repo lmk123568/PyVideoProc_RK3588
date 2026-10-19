@@ -10,6 +10,8 @@
 
 基于 RK3588 的 Python 多进程多路视频解码推理实现
 
+配套视频：[BiliBili](https://www.bilibili.com/video/BV1bRnJ6fEYJ)
+
 核心特性：
 
 - MPP 硬解码加速
