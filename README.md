@@ -1,4 +1,4 @@
-# PyVideoProc_RK
+# PyVideoProc_RK3588
 
 <p>
   <img alt="System" src="https://img.shields.io/badge/System-Ubuntu_22.04-E95420?logo=ubuntu&logoColor=white&style=flat-square">
