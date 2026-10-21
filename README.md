@@ -8,7 +8,7 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-2ea94f?logo=mitlicense&logoColor=white&style=flat-square">
 </p>
 
-用 Python 在 RK3588 上实现多路、多模型的视频流解码推理跟踪分析
+用 Python 在 RK3588 上实现多路、多模型的视频流解码推理
 
 配套视频：[BiliBili](https://www.bilibili.com/video/BV1bRnJ6fEYJ)
 
