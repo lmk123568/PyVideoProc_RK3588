@@ -8,7 +8,7 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-2ea94f?logo=mitlicense&logoColor=white&style=flat-square">
 </p>
 
-用 Python 在 RK3588 上实现多路、多模型的视频流解码推理
+用 Python 在 RK3588 上实现多路、多模型的视频流解码推理跟踪
 
 配套视频：[BiliBili](https://www.bilibili.com/video/BV1bRnJ6fEYJ)
 
@@ -17,9 +17,9 @@
 - MPP 硬解码加速
 - RGA 硬件转色缩放加速
 - 数据 dma_buf 零拷贝优化
-- C++做计算，Python做业务，快速定制开发
+- C++做计算，Python做业务，快速产出demo
 
-🔥🔥🔥 [基于 CUDA 的 Python 多进程多路视频解码推理实现](https://github.com/lmk123568/PyVideoProc)
+🔥🔥🔥 [CUDA 版本](https://github.com/lmk123568/PyVideoProc)
 
 ## Usage
 
