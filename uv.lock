@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = "==3.10.*"
 
 [[package]]
@@ -33,6 +33,7 @@ name = "kkk"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "lap" },
     { name = "numpy" },
     { name = "opencv-python" },
     { name = "pybind11" },
@@ -46,6 +47,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "lap", specifier = ">=0.5.13" },
     { name = "numpy", specifier = ">=2.2.6" },
     { name = "opencv-python", specifier = ">=5.0.0.93" },
     { name = "pybind11", specifier = ">=2.13" },
@@ -55,6 +57,25 @@ requires-dist = [
 dev = [
     { name = "cmake", specifier = ">=3.22" },
     { name = "ninja", specifier = ">=1.11" },
+]
+
+[[package]]
+name = "lap"
+version = "0.5.13"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f1/ae/5cc637c2e5158b7dcf1a9744d33b11dfc21d9309931169402f573e4d1ee3/lap-0.5.13.tar.gz", hash = "sha256:9eff7169e3ca452995af0493cc20d35452c4bfd06122c36c06457119ffbd411b", size = 1537351, upload-time = "2026-02-23T12:37:24.789Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/26/d6/91e97e538c9916ac6a3a12b700a13891704be8ea9b7b4e39dff21be9db69/lap-0.5.13-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:2cc08c4ff49626ba6c1b707f0b02e92cf57a44359e65d9e769acdff1b510eebf", size = 1481773, upload-time = "2026-02-23T12:35:58.667Z" },
+    { url = "https://files.pythonhosted.org/packages/37/1b/1911550ed035c26aa54d1fc6bfafdd97f02e3cc2284904d0de410f17a681/lap-0.5.13-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:32cd1d38500da8e1ef51398121f1408ce23890cbc133647a0f665576b127eca7", size = 1478874, upload-time = "2026-02-23T12:36:00.368Z" },
+    { url = "https://files.pythonhosted.org/packages/e8/51/f046eb06c8a18b8c4a1121981b7c513e882216a000d47a5ecb317b247891/lap-0.5.13-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl", hash = "sha256:33c53173abbd8da0ba8c4eef0a7f2dc72230c7c9bc0b634fe5c98873b4999ab8", size = 1708529, upload-time = "2026-02-23T12:36:01.624Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/eb/6a6b6c53738e06af8be5fca3dd3839cd65c35cf0cc6640ec7505374e413c/lap-0.5.13-cp310-cp310-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:10169f0401cf0ecd12f34d701abebbe2233c9fc5b9b5b46794157f5662646cb5", size = 1703789, upload-time = "2026-02-23T12:36:03.103Z" },
+    { url = "https://files.pythonhosted.org/packages/e7/7f/4bf5cc303b42c9a1c4f99b3f7398559167611aa786aee670fec5a6d81939/lap-0.5.13-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:65d88ca30e30805d57a45bee6dfa40893c0f3ee8c32120ddf660c625ad24d52a", size = 1700875, upload-time = "2026-02-23T12:36:04.507Z" },
+    { url = "https://files.pythonhosted.org/packages/36/c0/0de7f82521247242cca8506f7d4d13801d549d74337313545c1499e0d831/lap-0.5.13-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:ba28e9350ec93ddc94c0a44ae55a8802bc5f19bb7d5e6df5df3f9aa7f7a0e3f1", size = 1710973, upload-time = "2026-02-23T12:36:05.901Z" },
+    { url = "https://files.pythonhosted.org/packages/27/63/9448f9a7275fe108acb5858d3d13f4d7eb2732ec239aad76088bacb58558/lap-0.5.13-cp310-cp310-win_amd64.whl", hash = "sha256:f36bc604ae05cb80541a544a8d594c6b07c927a320495fbbaa91f92e2a80b70c", size = 1478098, upload-time = "2026-02-23T12:36:07.124Z" },
+    { url = "https://files.pythonhosted.org/packages/26/1a/37a9fb2d9f8affea98a7260e160767897366f17922d027ed865a128b2e28/lap-0.5.13-cp310-cp310-win_arm64.whl", hash = "sha256:7538f7dbe0fac37dba7c5e9dc0a8bff34ce397eea9406f2126f49c3a9884e86d", size = 1467291, upload-time = "2026-02-23T12:36:08.342Z" },
 ]
 
 [[package]]

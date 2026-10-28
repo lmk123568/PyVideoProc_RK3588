@@ -4,6 +4,7 @@ import time
 import numpy as np
 
 from yolo26_rk import yolo26_postprocess
+from bytetrack.fast_byte_tracker import FastByteTracker
 
 
 class Pipeline(mp.Process):
@@ -27,6 +28,13 @@ class Pipeline(mp.Process):
         )
         dec.start()  # 启动后台解码线程
 
+        tracker = FastByteTracker(
+            frame_rate=30,
+            track_thresh=0.5,      # 高低分分界
+            track_buffer=30,       # 丢失后保留帧数
+            match_thresh=0.8,      # 第一次匹配的代价阈值
+        )
+
         rknn = RKNN(verbose=False)
         rknn.load_rknn(self.args["model"])
         NPU_CORE_MASK = {0: 1, 1: 2, 2: 4}
@@ -44,7 +52,7 @@ class Pipeline(mp.Process):
             frame = dec.read(500)
 
             if frame is None:  
-               time.sleep(1)        # 队列空/正在重连, 还没出帧, 接着等
+               time.sleep(3)        # 队列空/正在重连, 还没出帧, 接着等
                continue
 
             frame_count += 1
@@ -60,7 +68,7 @@ class Pipeline(mp.Process):
             t2 = time.time()
 
             # 目标跟踪
-            # track_results = bytetrack(det_results)
+            track_results = tracker.update(det_results)
 
             t3 = time.time()
 
@@ -120,7 +128,7 @@ if __name__ == "__main__":
     for i in args:
         vp = Pipeline(i)
         vp.start()
-        time.sleep(1)
+        time.sleep(3)
         process_pool.append(vp)
 
     for vp in process_pool:

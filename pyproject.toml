@@ -6,6 +6,7 @@ description = "RK3588 零拷贝视频链路：MPP 硬解 → RGA 转色 → RKNN
 # 锁 3.10：rknn-toolkit2 的 aarch64 wheel 只发到 cp310
 requires-python = ">=3.10,<3.11"
 dependencies = [
+    "lap>=0.5.13",
     "numpy>=2.2.6",
     "opencv-python>=5.0.0.93",
     # 提供 pybind11 头文件 + pybind11Config.cmake（CMakeLists 靠它，不用 apt 的 pybind11-dev）

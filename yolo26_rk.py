@@ -90,7 +90,7 @@ def yolo26_postprocess(out, img_h=352, img_w=640, conf_thre=0.25, nms_thre=0.45,
     shifted[:, 2] += off
     keep = nms(shifted, scores, nms_thre)
 
-    return [(*boxes[k], class_ids[k], scores[k]) for k in keep]
+    return [(*boxes[k], scores[k], class_ids[k]) for k in keep]
 
 
 if __name__ == '__main__':
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     print('* 检出: %d' % len(det_results))
 
     vis = img
-    for x1, y1, x2, y2, c, score in det_results:
+    for x1, y1, x2, y2, score, c in det_results:
         x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
         cv2.rectangle(vis, (x1, y1), (x2, y2), (0, 255, 0), 2)
         cv2.putText(vis, '%s:%.2f' % (CLASSES[int(c)], score), (x1, max(y1 - 4, 12)),
