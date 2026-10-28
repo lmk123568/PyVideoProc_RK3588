@@ -29,7 +29,7 @@ class Pipeline(mp.Process):
         dec.start()  # 启动后台解码线程
 
         tracker = FastByteTracker(
-            frame_rate=30,
+            frame_rate=5,          # 喂给tracker的帧率
             track_thresh=0.5,      # 高低分分界
             track_buffer=30,       # 丢失后保留帧数
             match_thresh=0.8,      # 第一次匹配的代价阈值
