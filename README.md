@@ -8,33 +8,37 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-2ea94f?logo=mitlicense&logoColor=white&style=flat-square">
 </p>
 
-用 Python 在 RK3588 上实现多路、多模型的视频流解码推理跟踪
+用 Python 在 RK3588 上高效实现多路、多模型的视频流解码推理跟踪分析，并显著降低开发复杂度
 
-配套视频：[BiliBili](https://www.bilibili.com/video/BV1bRnJ6fEYJ)
+https://github.com/user-attachments/assets/38396ca8-7ee7-4e8e-a025-94d1653ef343
 
 核心特性：
 
 - MPP 硬解码加速
-- RGA 硬件转色缩放加速
-- 数据 dma_buf 零拷贝优化
-- C++做计算，Python做业务，快速产出demo
+- RGA 硬件转色与缩放
+- dma_buf 全链路零拷贝、缓冲区池化复用
+- RKNRKNN 运行时直调，无需 rknn-toolkit
+- 目标跟踪批量向量化加速
+- 工程实现极简，二次开发开箱即用
 
-🔥🔥🔥 [CUDA 版本](https://github.com/lmk123568/PyVideoProc)
+配套视频：[BiliBili](https://www.bilibili.com/video/BV1bRnJ6fEYJ)
+
+🔥🔥🔥 CUDA 版本实现：[PyVideoProc](https://github.com/lmk123568/PyVideoProc)
 
 ## Usage
 
 > 💡 在另外 x86 linux 环境导出 rknn 模型
 >
+> 将训练的 yolo26 onnx 模型导出 rknn 模型，输入尺寸设置 352x640，以接近视频帧的高宽比 9:16
+> 
 > ```bash
-> # 将训练的 yolo26 onnx 模型导出 rknn 模型
-> # 输入尺寸 352x640 接近视频帧的 9:16
 > pip install rknn-toolkit2
 > python assets/convert_rknn.py yolo26n_352x640.onnx
-> # 本项目自带转好的模型 asstes/yolo26n_352x640_fp16.rknn
 > ```
 >
+> 本项目已包含官方权重转换的 rknn 模型
 
-RK3588 开发板所需系统为 ubuntu 22.04，内核版本为 6.x，推荐镜像包下载：[百度网盘](https://pan.baidu.com/s/1wQJADWox-dDGDBWesU4PBA?pwd=gvbg)
+RK3588 开发板所需系统为 ubuntu 22.x，内核版本为 6.x，推荐镜像包下载：[百度网盘](https://pan.baidu.com/s/1wQJADWox-dDGDBWesU4PBA?pwd=gvbg)
 
 搭建环境
 
