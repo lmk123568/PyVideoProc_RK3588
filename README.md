@@ -1,8 +1,8 @@
 # PyVideoProc_RK3588
 
 <p>
-  <img alt="System" src="https://img.shields.io/badge/System-Ubuntu_22.x-E95420?logo=ubuntu&logoColor=white&style=flat-square">
-  <img alt="Kernel" src="https://img.shields.io/badge/Linux_Kernel-6.x-00add8?style=flat-square&logo=linux&logoColor=white">
+  <img alt="System" src="https://img.shields.io/badge/System-Debian/Ubuntu-E95420?logo=ubuntu&logoColor=white&style=flat-square">
+  <img alt="Kernel" src="https://img.shields.io/badge/Linux_Kernel-6.1-00add8?style=flat-square&logo=linux&logoColor=white">
   <img alt="Python" src="https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white&style=flat-square">
   <img alt="Toolkit" src="https://img.shields.io/badge/rknn__toolkit2-2.3.2-7c4f9e?style=flat-square">
   <img alt="License" src="https://img.shields.io/badge/License-MIT-2ea94f?logo=mitlicense&logoColor=white&style=flat-square">
@@ -38,7 +38,9 @@ https://github.com/user-attachments/assets/38396ca8-7ee7-4e8e-a025-94d1653ef343
 >
 > 本项目已包含官方权重转换的 rknn 模型
 
-RK3588 开发板所需系统为 ubuntu 22.x，内核版本为 6.x，推荐镜像包下载：[百度网盘](https://pan.baidu.com/s/1wQJADWox-dDGDBWesU4PBA?pwd=gvbg)
+RK3588 开发板所需内核为 Rockchip BSP 6.1，所需系统为 Debian/Ubuntu
+
+> 建议使用 Orange Pi 5 Plus 开发板作为入门，[镜像下载](https://pan.baidu.com/s/1wQJADWox-dDGDBWesU4PBA?pwd=gvbg)
 
 搭建环境
 
@@ -94,7 +96,7 @@ uv run python main.py
 - 测试视频流 `h264 1980x1280@25fps`
 - RK3588 开最高性能
 
-|      | CPU  | NPU                                | RAM    | YOLO Infer     |
+|      | CPU  | NPU                                | RAM    | YOLO26         |
 | ---- | ---- | ---------------------------------- | ------ | -------------- |
 | 3路  | 2%   | Core0: 9%, Core1: 10%, Core2: 10%  | 0.9 GB | 35 ms / frame  |
 | 6路  | 8%   | Core0: 23%, Core1: 23%, Core2: 24% | 1.0 GB | 53 ms / frame  |
