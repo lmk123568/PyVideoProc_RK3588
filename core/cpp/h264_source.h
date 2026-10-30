@@ -2,8 +2,11 @@
 /* H.264 Annex-B 字节流源：只管"吐数据块"，不管解码。
  * MPP 的 split_parse 模式对块大小无要求（解析器自己切 NAL），
  * 所以文件和网络流共用这一个极简接口。 */
+#include <sys/types.h>
+
 #include <cstddef>
 #include <cstdint>
+#include <mutex>
 #include <string>
 
 class H264Source {
@@ -31,7 +34,7 @@ private:
 class RtspH264Source : public H264Source {
 public:
     explicit RtspH264Source(const std::string &url);
-    ~RtspH264Source() override;   /* close + SIGTERM + waitpid */
+    ~RtspH264Source() override;   /* SIGTERM → close → 有界等待 → SIGKILL */
     size_t read(uint8_t *dst, size_t n) override;
 
     /* 从别的线程"踹"子进程（SIGTERM）：让阻塞在管道 read() 上的工作线程
@@ -41,5 +44,6 @@ public:
 
 private:
     int   fd_  = -1;   /* 子进程 stdout 的读端 */
-    pid_t pid_ = -1;
+    pid_t pid_ = -1;   /* -1 = 已回收（kill 前必须持 proc_mu_，防 pid 复用误杀） */
+    std::mutex proc_mu_;   /* 保护 pid_：kick() 与析构可能并发 */
 };

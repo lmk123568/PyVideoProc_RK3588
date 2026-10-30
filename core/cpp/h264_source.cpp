@@ -6,6 +6,7 @@
 #include <unistd.h>
 
 #include <cerrno>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <stdexcept>
@@ -18,6 +19,27 @@ static ssize_t read_retry(int fd, void *dst, size_t n)
         if (r >= 0 || errno != EINTR)
             return r;
     }
+}
+
+/* 有界回收子进程：最多等 ms 毫秒，返回 true = 已回收（或被别人收走）。
+ * 用 WNOHANG 轮询而不是阻塞 waitpid —— ffmpeg 卡在内核 D 状态
+ * （网络栈里出不来）时 SIGKILL 也要等它返回，阻塞等待会把 stop()/join()
+ * 永久挂住，Python 进程再也退不出去。 */
+static bool wait_exit_bounded(pid_t pid, int ms)
+{
+    for (int waited = 0; waited < ms; waited += 10) {
+        pid_t r = ::waitpid(pid, nullptr, WNOHANG);
+        if (r == pid)
+            return true;
+        if (r < 0) {
+            if (errno == ECHILD)   /* 不是我们的子进程/已被回收 */
+                return true;
+            if (errno != EINTR)    /* 其它错误：等下去也没用 */
+                return false;
+        }
+        ::usleep(10 * 1000);
+    }
+    return false;
 }
 
 /* ---------------- H264FileSource ---------------- */
@@ -89,17 +111,37 @@ RtspH264Source::RtspH264Source(const std::string &url)
 
 void RtspH264Source::kick()
 {
+    std::lock_guard<std::mutex> lk(proc_mu_);
     if (pid_ > 0)
         ::kill(pid_, SIGTERM);
 }
 
 RtspH264Source::~RtspH264Source()
 {
-    if (fd_ >= 0)
+    /* 顺序很重要：先捅子进程，再关读端。反过来若 fd 号被别的线程/新 source
+     * 复用，阻塞中的 read() 会读到不相干的数据；而 close 本身并不能保证
+     * 解阻塞阻塞在读上的线程，真正解阻塞靠的是子进程退出 → EOF。 */
+    std::lock_guard<std::mutex> lk(proc_mu_);
+    const pid_t pid = pid_;
+    pid_ = -1;   /* 先置 -1：即便后面回收失败，也不会再对可能被复用的 pid 发信号 */
+
+    if (pid > 0)
+        ::kill(pid, SIGTERM);
+    if (fd_ >= 0) {
         ::close(fd_);
-    if (pid_ > 0) {
-        ::kill(pid_, SIGTERM);
-        ::waitpid(pid_, nullptr, 0);
+        fd_ = -1;
+    }
+    if (pid <= 0)
+        return;
+
+    /* SIGTERM 最多等 2s，还活着就 SIGKILL，再最多等 1s。全程有界：
+     * 最坏 3s 后无论如何返回，绝不把 join() 挂死。 */
+    if (!wait_exit_bounded(pid, 2000)) {
+        ::kill(pid, SIGKILL);
+        if (!wait_exit_bounded(pid, 1000))
+            std::fprintf(stderr,
+                         "[cpp] ffmpeg(pid %d) SIGKILL 后仍未退出（可能卡在 D 状态），"
+                         "放弃回收\n", (int)pid);
     }
 }
 
