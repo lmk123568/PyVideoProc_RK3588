@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/38396ca8-7ee7-4e8e-a025-94d1653ef343
 - MPP 硬解码加速
 - RGA 硬件转色与缩放
 - dma_buf 全链路零拷贝、缓冲区池化复用
-- RKNRKNN 运行时直调，无需 rknn-toolkit
+- RKNN 运行时直调，无需 rknn-toolkit
 - 目标跟踪批量向量化加速
 - 工程实现极简，二次开发开箱即用
 
