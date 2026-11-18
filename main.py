@@ -1,7 +1,14 @@
-import multiprocessing as mp
+import os
 import time
 
+# 多进程单线程
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
 import numpy as np
+import multiprocessing as mp
 
 from yolo26_rk import yolo26_postprocess
 from bytetrack.fast_byte_tracker import FastByteTracker
@@ -52,7 +59,7 @@ class Pipeline(mp.Process):
             frame = dec.read(500)
 
             if frame is None:  
-               time.sleep(3)        # 队列空/正在重连, 还没出帧, 接着等
+               time.sleep(3)
                continue
 
             frame_count += 1
@@ -62,12 +69,10 @@ class Pipeline(mp.Process):
             # frame RGB (352, 640, 3) --> (1, 352, 640, 3)
             frame = np.expand_dims(frame, 0)
             outputs = rknn.inference(inputs=[frame], data_format="nhwc")
-
             det_results = yolo26_postprocess(outputs[0])
 
             t2 = time.time()
 
-            # 目标跟踪
             track_results = tracker.update(det_results)
 
             t3 = time.time()
@@ -128,8 +133,9 @@ if __name__ == "__main__":
     for i in args:
         vp = Pipeline(i)
         vp.start()
-        time.sleep(3)
         process_pool.append(vp)
+        time.sleep(3)  # 避免同时建立大量 RTSP 连接冲垮网络
+        
 
     for vp in process_pool:
         vp.join()
