@@ -88,6 +88,8 @@ uv run python yolo26_rk.py
 uv run python main.py
 ```
 
+建议使用 AI 理解整体架构思路并举一反三
+
 ## Benchmark
 
 路数均分给 3 个 npu 核
