@@ -88,7 +88,7 @@ uv run python yolo26_rk.py
 uv run python main.py
 ```
 
-建议使用 AI 理解整体架构思路并举一反三
+建议使用 AI 理解整体架构思路，并结合自身业务进行定制化实现
 
 ## Benchmark
 
